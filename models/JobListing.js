@@ -43,7 +43,7 @@ const JobListingSchema = new mongoose.Schema(
     yearsOfExperience: {
       type: Number,
     },
-
+    posted_date: { type: Date, default: Date.now },
     employer: {
       type: mongoose.Schema.Types.ObjectId,
       ref: "User", // Reference to the User collection (employers will be users in the User collection)
