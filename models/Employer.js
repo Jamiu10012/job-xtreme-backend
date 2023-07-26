@@ -21,7 +21,7 @@ const employerSchema = new mongoose.Schema({
     facebook: { type: String },
     instagram: { type: String },
   },
-  jobs: [{ type: mongoose.Schema.Types.ObjectId, ref: "JobPost" }],
+  jobs: [{ type: mongoose.Schema.Types.ObjectId, ref: "JobListing" }],
 });
 
 const Employer = mongoose.model("Employer", employerSchema);
