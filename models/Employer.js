@@ -13,7 +13,13 @@ const employerSchema = new mongoose.Schema({
     full_address: { type: String },
   },
   website_url: { type: String },
-  contact_email: { type: String },
+  contact_email: {
+    type: String,
+    match: [
+      /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/,
+      "Please add a valid email",
+    ],
+  },
   contact_phone: { type: String },
   social_media: {
     linkedin: { type: String },

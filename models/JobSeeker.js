@@ -4,7 +4,13 @@ const jobSeekerSchema = new mongoose.Schema({
   user: { type: mongoose.Schema.Types.ObjectId, ref: "User", required: true },
   full_name: { type: String, required: true },
   contact_number: { type: String },
-  contact_email: { type: String },
+  contact_email: {
+    type: String,
+    match: [
+      /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/,
+      "Please add a valid email",
+    ],
+  },
   date_of_birth: { type: Date },
   nationality: { type: String },
   location: {
