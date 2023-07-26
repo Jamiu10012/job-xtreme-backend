@@ -8,11 +8,7 @@ const UserSchema = new mongoose.Schema(
       required: true,
       unique: true,
     },
-    role: {
-      type: String,
-      enum: ["jobseeker", "employer", "admin"],
-      required: true,
-    },
+
     name: {
       type: String,
       require: true,
@@ -27,25 +23,30 @@ const UserSchema = new mongoose.Schema(
       type: String,
       require: true,
     },
-    DOB: {
-      type: Date,
-    },
-    Gender: {
+    // DOB: {
+    //   type: Date,
+    // },
+    // Gender: {
+    //   type: String,
+    //   enum: ["M", "F", "O"],
+    // },
+    // img: {
+    //   type: String,
+    // },
+    // PhoneNumber: {
+    //   type: Number,
+    //   validate: {
+    //     validator: function (v) {
+    //       return /^[0-9]{10}$/.test(v); // Validates a 10-digit phone number.
+    //     },
+    //     message: (props) =>
+    //       `${props.value} is not a valid 10-digit phone number!`,
+    //   },
+    // },
+    role: {
       type: String,
-      enum: ["M", "F", "O"],
-    },
-    img: {
-      type: String,
-    },
-    PhoneNumber: {
-      type: Number,
-      validate: {
-        validator: function (v) {
-          return /^[0-9]{10}$/.test(v); // Validates a 10-digit phone number.
-        },
-        message: (props) =>
-          `${props.value} is not a valid 10-digit phone number!`,
-      },
+      enum: ["jobseeker", "employer", "admin"],
+      required: true,
     },
     RegistrationDate: {
       type: Date,
