@@ -1,9 +1,9 @@
 import express from "express";
-import { update } from "../controllers/user.js";
+import { updateUserById } from "../controllers/user.js";
 
 const router = express.Router();
 
 // upadate user
-router.put("/:id", update);
+router.put("/:id", updateUserById);
 
 export default router;

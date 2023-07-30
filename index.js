@@ -1,6 +1,7 @@
 import express from "express";
 import mongoose from "mongoose";
 import dotenv from "dotenv";
+import cors from "cors";
 import cookieParser from "cookie-parser";
 import cors from "cors"; // Import the cors middleware
 import authRoutes from "./routes/auth.js";
@@ -11,6 +12,7 @@ dotenv.config();
 
 // Middleware
 app.use(cookieParser());
+app.use(cors());
 app.use(express.json());
 app.use(cors()); // Add cors middleware to allow all origins. You can specify specific origins if needed.
 

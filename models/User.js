@@ -8,44 +8,53 @@ const UserSchema = new mongoose.Schema(
       required: true,
       unique: true,
     },
-    role: {
+    firstname: {
       type: String,
-      enum: ["jobseeker", "employer", "admin"],
-      required: true,
+      required: [true, "first name is required"],
+      unique: true,
     },
-    name: {
+    lastname: {
       type: String,
-      require: true,
+      required: [true, "last name is required"],
       unique: true,
     },
     email: {
       type: String,
-      require: true,
+      required: [true, "e-mail is required"],
       unique: true,
+      match: [
+        /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/,
+        "Please add a valid email",
+      ],
     },
     password: {
       type: String,
       require: true,
     },
-    DOB: {
-      type: Date,
-    },
-    Gender: {
+    // DOB: {
+    //   type: Date,
+    // },
+    // Gender: {
+    //   type: String,
+    //   enum: ["M", "F", "O"],
+    // },
+    // img: {
+    //   type: String,
+    // },
+    // PhoneNumber: {
+    //   type: Number,
+    //   validate: {
+    //     validator: function (v) {
+    //       return /^[0-9]{10}$/.test(v); // Validates a 10-digit phone number.
+    //     },
+    //     message: (props) =>
+    //       `${props.value} is not a valid 10-digit phone number!`,
+    //   },
+    // },
+    role: {
       type: String,
-      enum: ["M", "F", "O"],
-    },
-    img: {
-      type: String,
-    },
-    PhoneNumber: {
-      type: Number,
-      validate: {
-        validator: function (v) {
-          return /^[0-9]{10}$/.test(v); // Validates a 10-digit phone number.
-        },
-        message: (props) =>
-          `${props.value} is not a valid 10-digit phone number!`,
-      },
+      enum: ["jobseeker", "employer", "admin"],
+      required: true,
     },
     RegistrationDate: {
       type: Date,
