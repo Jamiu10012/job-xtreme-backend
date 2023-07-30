@@ -22,7 +22,7 @@ app.use("/api/users", userRoutes);
 app.use("/api/auth", authRoutes);
 
 app.get("/", (req, res) => {
-  res.send("<h1>Welcome to jobportal</h1>");
+  res.send("<h1>Welcome to job Xtreme</h1>");
 });
 // Error handling middleware
 app.use((err, req, res, next) => {
