@@ -1,6 +1,7 @@
 import express from "express";
 import mongoose from "mongoose";
 import dotenv from "dotenv";
+import cors from "cors";
 import cookieParser from "cookie-parser";
 import authRoutes from "./routes/auth.js";
 import userRoutes from "./routes/users.js";
@@ -19,6 +20,7 @@ const connect = () => {
 };
 
 app.use(cookieParser());
+app.use(cors());
 app.use(express.json());
 app.use("/api/users", userRoutes);
 app.use("/api/auth", authRoutes);
@@ -32,7 +34,8 @@ app.use((err, req, res, next) => {
   });
 });
 
-app.listen(8000, () => {
+const port = process.env.PORT;
+app.listen(port, () => {
   connect();
-  console.log("Connected to server successfully");
+  console.log("Connected to server successfully in ", { port });
 });
