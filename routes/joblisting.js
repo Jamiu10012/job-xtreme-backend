@@ -8,11 +8,13 @@ router.post("/create-job-listing", async (req, res) => {
   const {
     title,
     description,
+    qualification,
     location,
     jobType,
     salary,
     salaryMethod,
     yearsOfExperience,
+    posted_date,
   } = req.body;
 
   const employerId = req.user.user_id;
@@ -22,11 +24,13 @@ router.post("/create-job-listing", async (req, res) => {
     const jobListing = await JobListing.create({
       title,
       description,
+      qualification,
       location,
       jobType,
       salary,
       salaryMethod,
       yearsOfExperience,
+      posted_date,
       employer: employerId,
     });
 
