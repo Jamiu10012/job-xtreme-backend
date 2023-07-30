@@ -12,9 +12,9 @@ dotenv.config();
 
 // Middleware
 app.use(cookieParser());
-app.use(cors());
+
 app.use(express.json());
-app.use(cors()); // Add cors middleware to allow all origins. You can specify specific origins if needed.
+app.use(cors({ origin: "http://localhost:3001" })); // Add cors middleware to allow all origins. You can specify specific origins if needed.
 
 // Routes
 app.use("/api/users", userRoutes);
