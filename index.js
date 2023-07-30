@@ -32,7 +32,8 @@ app.use((err, req, res, next) => {
   });
 });
 
-app.listen(8080, () => {
+const port = process.env.PORT;
+app.listen(port, () => {
   connect();
-  console.log("Connected to server successfully");
+  console.log("Connected to server successfully in ", { port });
 });
