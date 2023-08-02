@@ -76,7 +76,13 @@ export const signin = async (req, res, next) => {
         httpOnly: true,
       })
       .status(200)
-      .json(others);
+      .json({ others, token });
+
+    if (others.role === "jobseeker") {
+      console.log({ message: "You are here for looking job!" });
+    } else if (others.role === "employer") {
+       console.log({ message: "You are here for hiring people!" });
+    }
   } catch (err) {
     next(err);
   }
