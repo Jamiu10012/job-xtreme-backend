@@ -21,7 +21,8 @@ export const signup = async (req, res, next) => {
     const newUser = new User({ ...req.body, password: hash });
 
     await newUser.save();
-    res.status(201).json({ message: "User has been created!", user: newUser });
+    // res.status(201).json({ message: "User has been created!", user: newUser });
+    res.status(200).send("User has been created!");
   } catch (err) {
     next(err);
   }
@@ -29,7 +30,7 @@ export const signup = async (req, res, next) => {
 
 export const signin = async (req, res, next) => {
   try {
-    const user = await User.findOne({ name: req.body.name });
+    const user = await User.findOne({ email: req.body.email });
     if (!user) return next(createError(404, "User not found"));
 
     const isCorrect = await bcrypt.compare(req.body.password, user.password);
