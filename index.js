@@ -7,6 +7,7 @@ import cookieParser from "cookie-parser";
 
 import authRoutes from "./routes/auth.js";
 import userRoutes from "./routes/users.js";
+import jobRoutes from "./routes/joblisting.js";
 
 const app = express();
 dotenv.config();
@@ -20,6 +21,7 @@ app.use(morgan("dev"));
 // Routes
 app.use("/api/users", userRoutes);
 app.use("/api/auth", authRoutes);
+app.use("/api/job", jobRoutes);
 
 // app.get("/", (req, res) => {
 //   res.send("<h1>Welcome to job Xtreme</h1>");
