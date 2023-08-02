@@ -4,7 +4,7 @@ const employerSchema = new mongoose.Schema({
   user: { type: mongoose.Schema.Types.ObjectId, ref: "User", required: true },
   company_name: { type: String, required: true },
   company_description: { type: String },
-  industry: { type: String },
+  industry: { type: String, required: true },
   company_size: { type: String },
   nationality: { type: String },
   location: {
@@ -19,8 +19,9 @@ const employerSchema = new mongoose.Schema({
       /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/,
       "Please add a valid email",
     ],
+    required: true,
   },
-  contact_phone: { type: String },
+  contact_phone: { type: String, required: true },
   social_media: {
     linkedin: { type: String },
     twitter: { type: String },
@@ -32,4 +33,5 @@ const employerSchema = new mongoose.Schema({
 
 const Employer = mongoose.model("Employer", employerSchema);
 
-module.exports = Employer;
+// module.exports = Employer;
+export default Employer;

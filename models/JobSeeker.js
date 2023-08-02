@@ -2,14 +2,24 @@ import mongoose from "mongoose";
 
 const jobSeekerSchema = new mongoose.Schema({
   user: { type: mongoose.Schema.Types.ObjectId, ref: "User", required: true },
-  full_name: { type: String, required: true },
-  contact_number: { type: String },
+  full_name: {
+    firstname: {
+      type: String,
+      required: [true, "First name is required"],
+    },
+    lastname: {
+      type: String,
+      required: [true, "Last name is required"],
+    },
+  },
+  contact_phone: { type: String, required: true },
   contact_email: {
     type: String,
     match: [
       /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/,
       "Please add a valid email",
     ],
+    required: true,
   },
   date_of_birth: { type: Date },
   nationality: { type: String },
@@ -32,4 +42,6 @@ const jobSeekerSchema = new mongoose.Schema({
 
 const JobSeeker = mongoose.model("JobSeeker", jobSeekerSchema);
 
-module.exports = JobSeeker;
+
+// module.exports = JobSeeker;
+export default JobSeeker;

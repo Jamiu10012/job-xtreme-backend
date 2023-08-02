@@ -1,5 +1,7 @@
 import mongoose from "mongoose";
 import User from "../models/User.js";
+import JobSeeker from "../models/JobSeeker.js";
+import Employer from "../models/Employer.js";
 import bcrypt from "bcryptjs";
 import { createError } from "../error.js";
 import jwt from "jsonwebtoken";
@@ -7,6 +9,7 @@ import jwt from "jsonwebtoken";
 export const signup = async (req, res, next) => {
   try {
     const { email, password } = req.body;
+    const role = req.body.role;
 
     // Check if the email already exists in the database
     const existingUser = await User.findOne({ email });
@@ -17,12 +20,40 @@ export const signup = async (req, res, next) => {
     const salt = bcrypt.genSaltSync(10);
     const hash = bcrypt.hashSync(password, salt);
 
-    // Create a new user
-    const newUser = new User({ ...req.body, password: hash });
+    const user = new User({ ...req.body, password: hash });
+    const newUser = await user.save();
+    if (role === "jobseeker") {
+      const jobSeeker = new JobSeeker({
+        ...req.body,
+        user: newUser._id,
+        // full_name: newUser.firstname + " " + newUser.lastname,
+        contact_email: newUser.email,
+      });
 
-    await newUser.save();
-    // res.status(201).json({ message: "User has been created!", user: newUser });
-    res.status(200).send("User has been created!");
+      return await jobSeeker.save().then(() => {
+        res
+          .status(201)
+          .json({ success: true, message: "New jobseeker account created!" });
+      });
+    } else if (role === "employer") {
+      const employer = new Employer({
+        ...req.body,
+        user: newUser._id,
+        company_name: req.body.company_name,
+        industry: req.body.industry,
+        contact_email: newUser.email,
+        contact_phone: req.body.contact_phone,
+      });
+
+      return await employer.save().then(() => {
+        res
+          .status(201)
+          .json({ success: true, message: "New employer account created!" });
+      });
+    }
+    // Create a new user
+
+    res.status(201).json({ message: "User has been created!", user: newUser });
   } catch (err) {
     next(err);
   }
