@@ -1,7 +1,16 @@
 import JobSeeker from "../models/JobSeeker.js";
 
+export const getAllJobSeekers = async (req, res) => {
+  try {
+    const jobseekers = await JobSeeker.find().populate("user");
+    return res.status(200).json({ jobseekers });
+  } catch (err) {
+    res.status(500).json({ error: err });
+  }
+};
+
 // Create a new job seeker
-exports.createJobSeeker = async (req, res) => {
+export const createJobSeeker = async (req, res) => {
   try {
     const newJobSeeker = await JobSeeker.create(req.body);
     res.status(201).json(newJobSeeker);
@@ -11,10 +20,10 @@ exports.createJobSeeker = async (req, res) => {
 };
 
 // Get job seeker by ID
-exports.getJobSeekerById = async (req, res) => {
+export const getJobSeekerById = async (req, res) => {
   try {
     const jobSeeker = await JobSeeker.findById(req.params.id).populate(
-      "saved_jobs job_applications"
+      "saved_jobs job_applications",
     );
     res.status(200).json(jobSeeker);
   } catch (err) {
@@ -23,12 +32,12 @@ exports.getJobSeekerById = async (req, res) => {
 };
 
 // Update job seeker by ID
-exports.updateJobSeekerById = async (req, res) => {
+export const updateJobSeekerById = async (req, res) => {
   try {
     const updatedJobSeeker = await JobSeeker.findByIdAndUpdate(
       req.params.id,
       req.body,
-      { new: true }
+      { new: true },
     );
     res.status(200).json(updatedJobSeeker);
   } catch (err) {
@@ -37,7 +46,7 @@ exports.updateJobSeekerById = async (req, res) => {
 };
 
 // Delete job seeker by ID
-exports.deleteJobSeekerById = async (req, res) => {
+export const deleteJobSeekerById = async (req, res) => {
   try {
     await JobSeeker.findByIdAndDelete(req.params.id);
     res.status(204).end();
