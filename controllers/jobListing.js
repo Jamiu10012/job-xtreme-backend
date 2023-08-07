@@ -11,7 +11,14 @@ export const createJobListing = async (req, res) => {
     res.status(500).json({ error: "Failed to create job." });
   }
 };
-
+export const getAllJobs = async (req, res) => {
+  try {
+    const jobs = await JobListing.find();
+    return res.status(200).json({ jobs });
+  } catch (err) {
+    res.status(500).json({ error: err });
+  }
+};
 // Get job listing by ID
 export const getJobListingById = async (req, res) => {
   try {

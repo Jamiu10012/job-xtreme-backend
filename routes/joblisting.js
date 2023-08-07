@@ -4,6 +4,7 @@ import { verifyToken } from "../verifyToken.js";
 import {
   createJobListing,
   deleteJobListingById,
+  getAllJobs,
   getJobListingById,
   searchJobs,
   updateJobListingById,
@@ -16,6 +17,7 @@ const router = express.Router();
 router.post("/createjoblisting", verifyToken, createJobListing);
 
 router.put("/updatejoblisting/:id", verifyToken, updateJobListingById);
+router.get("/jobs", getAllJobs);
 router.get("/getjoblisting/:id", verifyToken, getJobListingById);
 router.get("/search", searchJobs);
 router.delete("/deletejoblisting/:id", verifyToken, deleteJobListingById);
