@@ -1,6 +1,6 @@
 import Employer from "../models/Employer.js";
 // Create a new employer
-exports.createEmployer = async (req, res) => {
+export const createEmployer = async (req, res) => {
   try {
     const newEmployer = await Employer.create(req.body);
     res.status(201).json(newEmployer);
@@ -10,7 +10,7 @@ exports.createEmployer = async (req, res) => {
 };
 
 // Get employer by ID
-exports.getEmployerById = async (req, res) => {
+export const getEmployerById = async (req, res) => {
   try {
     const employer = await Employer.findById(req.params.id).populate("jobs");
     res.status(200).json(employer);
@@ -20,7 +20,7 @@ exports.getEmployerById = async (req, res) => {
 };
 
 // Update employer by ID
-exports.updateEmployerById = async (req, res) => {
+export const updateEmployerById = async (req, res) => {
   try {
     const updatedEmployer = await Employer.findByIdAndUpdate(
       req.params.id,
@@ -34,7 +34,7 @@ exports.updateEmployerById = async (req, res) => {
 };
 
 // Delete employer by ID
-exports.deleteEmployerById = async (req, res) => {
+export const deleteEmployerById = async (req, res) => {
   try {
     await Employer.findByIdAndDelete(req.params.id);
     res.status(204).end();
