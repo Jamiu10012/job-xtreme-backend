@@ -9,6 +9,7 @@ import authRoutes from "./routes/auth.js";
 import userRoutes from "./routes/users.js";
 import jobRoutes from "./routes/joblisting.js";
 import jobSeekerRoutes from "./routes/jobseekers.js";
+import resumeRoutes from "./routes/resume.js";
 
 const app = express();
 dotenv.config();
@@ -24,6 +25,7 @@ app.use("/api/users", userRoutes);
 app.use("/api/auth", authRoutes);
 app.use("/api/job", jobRoutes);
 app.use("/api/jobseekers", jobSeekerRoutes);
+app.use("/api/resume", resumeRoutes);
 
 // app.get("/", (req, res) => {
 //   res.send("<h1>Welcome to job Xtreme</h1>");

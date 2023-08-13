@@ -44,9 +44,14 @@ const JobListingSchema = new mongoose.Schema(
       type: Number,
     },
     posted_date: { type: Date, default: Date.now },
+    // company_name: {
+    //   type: mongoose.Schema.Types.ObjectId,
+    //   ref: "Employer", // Reference to the User collection (employers will be users in the User collection)
+    //   required: true,
+    // },
     employer: {
       type: mongoose.Schema.Types.ObjectId,
-      ref: "User", // Reference to the User collection (employers will be users in the User collection)
+      ref: "Employer", // Reference to the User collection (employers will be users in the User collection)
       required: true,
     },
     // You can add more fields like application deadline, date posted, etc. as needed

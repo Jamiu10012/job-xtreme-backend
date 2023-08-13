@@ -3,11 +3,6 @@ import Resume from "../models/Resume.js"; // Import the Resume model
 // Controller for creating a new resume
 export const createResume = async (req, res) => {
   try {
-    const errors = validationResult(req);
-    if (!errors.isEmpty()) {
-      return res.status(400).json({ errors: errors.array() });
-    }
-
     const newResume = new Resume(req.body);
     const savedResume = await newResume.save();
     res.json(savedResume);

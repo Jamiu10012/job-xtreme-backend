@@ -52,7 +52,8 @@ export const signup = async (req, res, next) => {
       });
     }
     // Create a new user
-
+    console.log(role);
+    console.log(newUser);
     res.status(201).json({ message: "User has been created!", user: newUser });
   } catch (err) {
     next(err);
@@ -81,7 +82,7 @@ export const signin = async (req, res, next) => {
     if (others.role === "jobseeker") {
       console.log({ message: "You are here for looking job!" });
     } else if (others.role === "employer") {
-       console.log({ message: "You are here for hiring people!" });
+      console.log({ message: "You are here for hiring people!" });
     }
   } catch (err) {
     next(err);

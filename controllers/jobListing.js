@@ -1,10 +1,29 @@
 import JobListing from "../models/JobListing.js";
 
 // Create a new job listing
+// export const createJobListing = async (req, res) => {
+//   try {
+//     const newJobListing = await JobListing.create(req.body);
+//     // await newJobListing.save();
+//     res.status(201).json(newJobListing);
+//   } catch (err) {
+//     console.error("Error creating job:", err);
+//     res.status(500).json({ error: "Failed to create job." });
+//   }
+// };
 export const createJobListing = async (req, res) => {
   try {
+    // Assuming you have user information available in req.user after authentication
+    const userRole = req.user.role;
+
+    // Check if the user is an employer
+    if (userRole !== "employer") {
+      return res
+        .status(403)
+        .json({ error: "Only employers can create job listings." });
+    }
+
     const newJobListing = await JobListing.create(req.body);
-    // await newJobListing.save();
     res.status(201).json(newJobListing);
   } catch (err) {
     console.error("Error creating job:", err);
