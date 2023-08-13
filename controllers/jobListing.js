@@ -17,11 +17,11 @@ export const createJobListing = async (req, res) => {
     const userRole = req.user.role;
 
     // Check if the user is an employer
-    if (userRole !== "employer") {
-      return res
-        .status(403)
-        .json({ error: "Only employers can create job listings." });
-    }
+    // if (userRole !== "employer") {
+    //   return res
+    //     .status(403)
+    //     .json({ error: "Only employers can create job listings." });
+    // }
 
     const newJobListing = await JobListing.create(req.body);
     res.status(201).json(newJobListing);

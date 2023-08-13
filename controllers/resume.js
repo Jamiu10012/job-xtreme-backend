@@ -8,7 +8,7 @@ export const createResume = async (req, res) => {
     res.json(savedResume);
   } catch (error) {
     console.error(error);
-    res.status(500).json({ error: "Server error" });
+    res.status(500).json({ error: "Something is missing" });
   }
 };
 
@@ -19,7 +19,7 @@ export const getAllResumes = async (req, res) => {
     res.json(resumes);
   } catch (error) {
     console.error(error);
-    res.status(500).json({ error: "Server error" });
+    res.status(500).json({ error: "Opps look like you dont have access" });
   }
 };
 
