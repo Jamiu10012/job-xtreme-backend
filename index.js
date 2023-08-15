@@ -11,6 +11,7 @@ import jobRoutes from "./routes/joblisting.js";
 import jobSeekerRoutes from "./routes/jobseekers.js";
 import resumeRoutes from "./routes/resume.js";
 import employerRoute from "./routes/employer.js";
+import JobAppLicationRoute from "./routes/employer.js";
 
 const app = express();
 dotenv.config();
@@ -25,6 +26,7 @@ app.use(morgan("dev"));
 app.use("/api/users", userRoutes);
 app.use("/api/auth", authRoutes);
 app.use("/api/job", jobRoutes);
+app.use("/api/job", JobAppLicationRoute);
 app.use("/api/jobseekers", jobSeekerRoutes);
 app.use("/api/resume", resumeRoutes);
 app.use("/api/employer", employerRoute);

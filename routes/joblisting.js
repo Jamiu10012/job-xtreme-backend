@@ -14,7 +14,7 @@ const router = express.Router();
 // const JobListing = require("../models/JobListing");
 
 // POST /api/create-job-listing
-router.post("/createjoblisting", verifyToken, createJobListing);
+router.post("/createjoblisting/:id", createJobListing);
 
 router.put("/updatejoblisting/:id", verifyToken, updateJobListingById);
 router.get("/jobs", getAllJobs);

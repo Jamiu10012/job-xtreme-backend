@@ -1,5 +1,5 @@
 import JobListing from "../models/JobListing.js";
-
+import User from "../models/User.js";
 // Create a new job listing
 // export const createJobListing = async (req, res) => {
 //   try {
@@ -14,17 +14,30 @@ import JobListing from "../models/JobListing.js";
 export const createJobListing = async (req, res) => {
   try {
     // Assuming you have user information available in req.user after authentication
-    const userRole = req.user.role;
+    // const userRole = req.user.role;
+    // if (!req.user || !req.user._id) {
+    //   return res.status(403).json({ error: "User not authenticated." });
+    // }
+    const userId = req.id;
+    const user = await User.findOne({ _id: userId });
+    // console.log(user);
+    res.status(200).json(err);
+    // // Check if the user's role is "employer"
+    // if (user.role !== "employer") {
+    //   return res
+    //     .status(403)
+    //     .json({ error: "Only employers can create job listings." });
+    // }
 
-    // Check if the user is an employer
+    // // Check if the user is an employer
     // if (userRole !== "employer") {
     //   return res
     //     .status(403)
     //     .json({ error: "Only employers can create job listings." });
     // }
 
-    const newJobListing = await JobListing.create(req.body);
-    res.status(201).json(newJobListing);
+    // const newJobListing = await JobListing.create(req.body);
+    // res.status(201).json(newJobListing);
   } catch (err) {
     console.error("Error creating job:", err);
     res.status(500).json({ error: "Failed to create job." });
@@ -32,7 +45,7 @@ export const createJobListing = async (req, res) => {
 };
 export const getAllJobs = async (req, res) => {
   try {
-    const jobs = await JobListing.find().populate("employer");
+    const jobs = await JobListing.find();
     return res.status(200).json({ jobs });
   } catch (err) {
     res.status(500).json({ error: err });
