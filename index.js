@@ -26,7 +26,7 @@ app.use(morgan("dev"));
 app.use("/api/users", userRoutes);
 app.use("/api/auth", authRoutes);
 app.use("/api/job", jobRoutes);
-app.use("/api/job", JobAppLicationRoute);
+// app.use("/api/job", JobAppLicationRoute);
 app.use("/api/jobseekers", jobSeekerRoutes);
 app.use("/api/resume", resumeRoutes);
 app.use("/api/employer", employerRoute);

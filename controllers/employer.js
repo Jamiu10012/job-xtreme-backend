@@ -1,4 +1,15 @@
 import Employer from "../models/Employer.js";
+
+// Get all employers
+export const getAll = async (req, res) => {
+  try {
+    const employers = await Employer.find().populate("user")
+    res.status(200).json(employers);
+  } catch (err) {
+    res.status(500).json({ error: "Failed to load employers" });
+  }
+}
+
 // Create a new employer
 export const createEmployer = async (req, res) => {
   try {

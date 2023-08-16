@@ -1,5 +1,6 @@
 import JobListing from "../models/JobListing.js";
 import User from "../models/User.js";
+import Employer from "../models/Employer.js";
 // Create a new job listing
 // export const createJobListing = async (req, res) => {
 //   try {
@@ -14,30 +15,24 @@ import User from "../models/User.js";
 export const createJobListing = async (req, res) => {
   try {
     // Assuming you have user information available in req.user after authentication
-    // const userRole = req.user.role;
-    // if (!req.user || !req.user._id) {
-    //   return res.status(403).json({ error: "User not authenticated." });
-    // }
-    const userId = req.id;
+    const userId = req.params.id;
     const user = await User.findOne({ _id: userId });
-    // console.log(user);
-    res.status(200).json(err);
-    // // Check if the user's role is "employer"
-    // if (user.role !== "employer") {
-    //   return res
-    //     .status(403)
-    //     .json({ error: "Only employers can create job listings." });
-    // }
 
-    // // Check if the user is an employer
-    // if (userRole !== "employer") {
-    //   return res
-    //     .status(403)
-    //     .json({ error: "Only employers can create job listings." });
-    // }
+    if (!req.params.id || !req.params.id) {
+      return res.status(403).json({ error: "User not authenticated." });
+    }
 
-    // const newJobListing = await JobListing.create(req.body);
-    // res.status(201).json(newJobListing);
+    // Check if the user's role is not "employer"
+    if (user.role !== "employer") {
+      return res
+        .status(403)
+        .json({ error: "Only employers can create job listings." });
+    } else {
+
+      const newJobListing = await JobListing.create({ ...req.body, employer: req.params.id });
+      res.status(201).json(newJobListing);
+
+    }
   } catch (err) {
     console.error("Error creating job:", err);
     res.status(500).json({ error: "Failed to create job." });
