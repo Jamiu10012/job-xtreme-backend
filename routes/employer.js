@@ -1,5 +1,5 @@
 import express from "express";
-import { getEmployerById, getAll } from "../controllers/employer.js";
+import { getEmployerById, getAll, updateEmployerById } from "../controllers/employer.js";
 
 const router = express.Router();
 
@@ -12,7 +12,7 @@ router.get("/one/:id", getEmployerById);
 
 
 // upadate user
-// router.put("/:id", verifyToken, updateUserById);
+router.put("/update/:id", updateEmployerById);
 
 // router.get("/find/:id", getUserById);
 
