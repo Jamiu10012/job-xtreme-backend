@@ -1,5 +1,6 @@
 import express from "express";
 import {
+  addFavoriteJob,
   getAllJobSeekers,
   updateJobSeekerById,
 } from "../controllers/jobSeeker.js";
@@ -12,6 +13,7 @@ router.get("/all/", getAllJobSeekers);
 
 // upadate user
 router.put("/:id", updateJobSeekerById);
+router.post("/addfav/:userId", addFavoriteJob);
 
 // router.get("/find/:id", getUserById);
 

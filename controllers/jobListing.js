@@ -2,7 +2,6 @@ import JobListing from "../models/JobListing.js";
 import User from "../models/User.js";
 import Employer from "../models/Employer.js";
 
-
 // Create a new job listin
 
 export const createJobListing = async (req, res) => {
@@ -23,7 +22,7 @@ export const createJobListing = async (req, res) => {
     } else {
       const newJobListing = await JobListing.create({
         ...req.body,
-        employer: req.params.id,
+        // employer: req.params.id,
       });
       res.status(201).json(newJobListing);
     }
@@ -34,7 +33,7 @@ export const createJobListing = async (req, res) => {
 };
 export const getAllJobs = async (req, res) => {
   try {
-    const jobs = await JobListing.find();
+    const jobs = await JobListing.find().populate("employer");
     return res.status(200).json({ jobs });
   } catch (err) {
     res.status(500).json({ error: err });
@@ -43,7 +42,9 @@ export const getAllJobs = async (req, res) => {
 // Get job listing by ID
 export const getJobListingById = async (req, res) => {
   try {
-    const jobListing = await JobListing.findById(req.params.id).populate("employer");
+    const jobListing = await JobListing.findById(req.params.id).populate(
+      "employer"
+    );
     res.status(200).json(jobListing);
   } catch (err) {
     res.status(404).json({ error: "Job listing not found." });

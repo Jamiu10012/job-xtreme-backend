@@ -61,3 +61,26 @@ export const deleteJobSeekerById = async (req, res) => {
     res.status(404).json({ error: "Job seeker not found." });
   }
 };
+export const addFavoriteJob = async (req, res) => {
+  const { userId } = req.params;
+  const { jobId } = req.body;
+
+  try {
+    const jobSeeker = await JobSeeker.findById(userId);
+
+    if (!jobSeeker) {
+      return res.status(404).json({ message: "Job seeker not found" });
+    }
+
+    // Check if the job listing is already in the job seeker's saved_jobs
+    if (!jobSeeker.saved_jobs.includes(jobId)) {
+      jobSeeker.saved_jobs.push(jobId);
+      await jobSeeker.save();
+    }
+
+    res.status(200).json(jobSeeker);
+  } catch (error) {
+    console.error("Error adding favorite:", error);
+    res.status(500).json({ message: "Internal server error" });
+  }
+};

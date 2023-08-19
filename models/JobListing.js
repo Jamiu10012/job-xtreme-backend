@@ -47,7 +47,7 @@ const JobListingSchema = new mongoose.Schema(
 
     employer: {
       type: mongoose.Schema.Types.ObjectId,
-      ref: "User",
+      ref: "Employer",
       required: true,
     },
     // You can add more fields like application deadline, date posted, etc. as needed
