@@ -1,28 +1,29 @@
 import JobListing from "../models/JobListing.js";
 import User from "../models/User.js";
-// import Employer from "../models/Employer.js";
+import Employer from "../models/Employer.js";
 
 // Create a new job listin
 
 export const createJobListing = async (req, res) => {
   try {
     // Assuming you have user information available in req.user after authentication
-    const userId = req.params.id;
-    const user = await User.findOne({ _id: userId });
+    const id = req.params.id;
+    const employer = await Employer.findOne({ _id: id }).populate("user");
 
     if (!req.params.id || !req.params.id) {
       return res.status(403).json({ error: "User not authenticated." });
     }
 
+
     // Check if the user's role is not "employer"
-    if (user.role !== "employer") {
+    if (employer.user.role !== "employer") {
       return res
         .status(403)
         .json({ error: "Only employers can create job listings." });
     } else {
       const newJobListing = await JobListing.create({
         ...req.body,
-        // employer: req.params.id,
+        employer: req.params.id,
       });
       res.status(201).json(newJobListing);
     }
