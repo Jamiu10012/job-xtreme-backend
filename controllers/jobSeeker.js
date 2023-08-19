@@ -23,7 +23,8 @@ export const createJobSeeker = async (req, res) => {
 export const getJobSeekerById = async (req, res) => {
   try {
     const jobSeeker = await JobSeeker.findById(req.params.id).populate(
-      "saved_jobs job_applications"
+      "saved_jobs",
+      "job_applications"
     );
     res.status(200).json(jobSeeker);
   } catch (err) {

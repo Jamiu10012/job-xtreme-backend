@@ -111,3 +111,14 @@ export const searchJobs = async (req, res) => {
     res.status(500).json({ error: "Failed to search for jobs." });
   }
 };
+export const getJobsByEmployerId = async (req, res) => {
+  const employerId = req.params.employerId;
+
+  try {
+    const jobs = await JobListing.find({ employer: employerId }); // Assuming 'employer' is a field in your Job model that stores the employer's ID
+    res.status(200).json(jobs);
+  } catch (error) {
+    console.error("Error fetching jobs:", error);
+    res.status(500).json({ error: "An error occurred while fetching jobs." });
+  }
+};

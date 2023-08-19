@@ -13,6 +13,7 @@ const jobSeekerSchema = new mongoose.Schema({
     },
   },
   contact_phone: { type: String, required: true },
+  job_title: { type: String },
   contact_email: {
     type: String,
     match: [
