@@ -4,6 +4,8 @@ const employerSchema = new mongoose.Schema({
   user: { type: mongoose.Schema.Types.ObjectId, ref: "User", required: true },
   company_name: { type: String, required: true },
   company_description: { type: String },
+  what_we_do: { type: String },
+  mission: { type: String },
   industry: {
     type: String,
     enum: [

@@ -1,6 +1,6 @@
 import JobListing from "../models/JobListing.js";
 import User from "../models/User.js";
-import Employer from "../models/Employer.js";
+// import Employer from "../models/Employer.js";
 
 // Create a new job listin
 
