@@ -18,7 +18,8 @@ router.post("/createjoblisting/:id", createJobListing);
 
 router.put("/updatejoblisting/:id", verifyToken, updateJobListingById);
 router.get("/jobs", getAllJobs);
-router.get("/getjoblisting/:id", verifyToken, getJobListingById);
+// router.get("/getjoblisting/:id", verifyToken, getJobListingById);
+router.get("/getjoblisting/:id", getJobListingById);
 router.get("/search", searchJobs);
 router.delete("/deletejoblisting/:id", verifyToken, deleteJobListingById);
 

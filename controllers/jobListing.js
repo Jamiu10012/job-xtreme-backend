@@ -1,17 +1,10 @@
 import JobListing from "../models/JobListing.js";
 import User from "../models/User.js";
 import Employer from "../models/Employer.js";
-// Create a new job listing
-// export const createJobListing = async (req, res) => {
-//   try {
-//     const newJobListing = await JobListing.create(req.body);
-//     // await newJobListing.save();
-//     res.status(201).json(newJobListing);
-//   } catch (err) {
-//     console.error("Error creating job:", err);
-//     res.status(500).json({ error: "Failed to create job." });
-//   }
-// };
+
+
+// Create a new job listin
+
 export const createJobListing = async (req, res) => {
   try {
     // Assuming you have user information available in req.user after authentication
@@ -50,7 +43,7 @@ export const getAllJobs = async (req, res) => {
 // Get job listing by ID
 export const getJobListingById = async (req, res) => {
   try {
-    const jobListing = await JobListing.findById(req.params.id);
+    const jobListing = await JobListing.findById(req.params.id).populate("employer");
     res.status(200).json(jobListing);
   } catch (err) {
     res.status(404).json({ error: "Job listing not found." });
