@@ -23,7 +23,7 @@ export const createJobSeeker = async (req, res) => {
 export const getJobSeekerById = async (req, res) => {
   try {
     const jobSeeker = await JobSeeker.findById(req.params.id).populate(
-      "saved_jobs job_applications",
+      "saved_jobs job_applications"
     );
     res.status(200).json(jobSeeker);
   } catch (err) {
@@ -37,11 +37,18 @@ export const updateJobSeekerById = async (req, res) => {
     const updatedJobSeeker = await JobSeeker.findByIdAndUpdate(
       req.params.id,
       req.body,
-      { new: true },
+      { new: true }
     );
+
+    if (!updatedJobSeeker) {
+      return res.status(404).json({ error: "Job seeker not found." });
+    }
+
     res.status(200).json(updatedJobSeeker);
   } catch (err) {
-    res.status(404).json({ error: "Job seeker not found." });
+    res
+      .status(500)
+      .json({ error: "An error occurred while updating the job seeker." });
   }
 };
 

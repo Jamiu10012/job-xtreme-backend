@@ -3,12 +3,12 @@ import Employer from "../models/Employer.js";
 // Get all employers
 export const getAll = async (req, res) => {
   try {
-    const employers = await Employer.find().populate("user")
+    const employers = await Employer.find().populate("user");
     res.status(200).json(employers);
   } catch (err) {
     res.status(500).json({ error: "Failed to load employers" });
   }
-}
+};
 
 // Create a new employer
 export const createEmployer = async (req, res) => {
@@ -38,9 +38,14 @@ export const updateEmployerById = async (req, res) => {
       req.body,
       { new: true }
     );
+    if (!updatedEmployer) {
+      return res.status(404).json({ error: "Employer not found." });
+    }
     res.status(200).json(updatedEmployer);
   } catch (err) {
-    res.status(404).json({ error: "Employer not found." });
+    res
+      .status(500)
+      .json({ error: "An error occurred while updating employer." });
   }
 };
 

@@ -86,7 +86,7 @@ const ResumeSchema = new mongoose.Schema({
       },
       startYear: {
         type: Number,
-        required: [true, "Start year is required"],
+        // required: [true, "Start year is required"],
       },
       endYear: {
         type: Number,

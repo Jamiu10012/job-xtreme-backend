@@ -1,6 +1,9 @@
 import express from "express";
-import { getAllJobSeekers } from "../controllers/jobSeeker.js";
-
+import {
+  getAllJobSeekers,
+  updateJobSeekerById,
+} from "../controllers/jobSeeker.js";
+// import { verifyToken } from "../verifyToken.js";
 
 const router = express.Router();
 
@@ -8,7 +11,7 @@ const router = express.Router();
 router.get("/all/", getAllJobSeekers);
 
 // upadate user
-// router.put("/:id", verifyToken, updateUserById);
+router.put("/:id", updateJobSeekerById);
 
 // router.get("/find/:id", getUserById);
 

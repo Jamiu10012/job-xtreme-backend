@@ -28,10 +28,11 @@ export const createJobListing = async (req, res) => {
         .status(403)
         .json({ error: "Only employers can create job listings." });
     } else {
-
-      const newJobListing = await JobListing.create({ ...req.body, employer: req.params.id });
+      const newJobListing = await JobListing.create({
+        ...req.body,
+        employer: req.params.id,
+      });
       res.status(201).json(newJobListing);
-
     }
   } catch (err) {
     console.error("Error creating job:", err);
@@ -97,7 +98,9 @@ export const searchJobs = async (req, res) => {
     if (location) {
       query.location = { $regex: new RegExp(location, "i") };
     }
-
+    if (salary) {
+      query.salary = { $regex: new RegExp(salary, "i") };
+    }
     // if (salary) {
     //   query.salary = salary;
     // }

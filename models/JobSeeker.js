@@ -21,12 +21,14 @@ const jobSeekerSchema = new mongoose.Schema({
     ],
     required: true,
   },
-  date_of_birth: { type: Date },
+  gender: { type: String },
+  date_of_birth: { type: String },
   nationality: { type: String },
   location: {
     city: { type: String },
     zipcode: { type: String },
     full_address: { type: String },
+    state: { type: String },
   },
   social_media: {
     linkedin: { type: String },
@@ -41,7 +43,6 @@ const jobSeekerSchema = new mongoose.Schema({
 });
 
 const JobSeeker = mongoose.model("JobSeeker", jobSeekerSchema);
-
 
 // module.exports = JobSeeker;
 export default JobSeeker;
