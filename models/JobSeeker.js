@@ -14,7 +14,7 @@ const jobSeekerSchema = new mongoose.Schema({
   },
   contact_phone: { type: String, required: true },
   job_title: { type: String },
-  profile_picture: {type: String},
+  profile_picture: { type: String },
   contact_email: {
     type: String,
     match: [
@@ -42,6 +42,7 @@ const jobSeekerSchema = new mongoose.Schema({
   job_applications: [
     { type: mongoose.Schema.Types.ObjectId, ref: "JobApplication" },
   ],
+  resume: { type: mongoose.Schema.Types.ObjectId, ref: "Resume" },
 });
 
 const JobSeeker = mongoose.model("JobSeeker", jobSeekerSchema);
