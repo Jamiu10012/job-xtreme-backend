@@ -14,7 +14,6 @@ export const createJobListing = async (req, res) => {
       return res.status(403).json({ error: "User not authenticated." });
     }
 
-
     // Check if the user's role is not "employer"
     if (employer.user.role !== "employer") {
       return res

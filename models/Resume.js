@@ -1,11 +1,6 @@
 import mongoose from "mongoose";
 
 const ResumeSchema = new mongoose.Schema({
-  user: {
-    type: mongoose.Schema.Types.ObjectId,
-    ref: "User",
-    required: true,
-  },
   fullName: {
     firstname: {
       type: String,
@@ -104,6 +99,11 @@ const ResumeSchema = new mongoose.Schema({
   },
   certifications: {
     type: [String],
+  },
+  jobseeker: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "JobSeeker",
+    required: true,
   },
 });
 
