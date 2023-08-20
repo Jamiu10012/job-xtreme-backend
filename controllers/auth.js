@@ -72,17 +72,20 @@ export const signin = async (req, res, next) => {
     const token = jwt.sign({ id: user._id }, process.env.JWT);
     const { password, ...others } = user._doc;
 
-    res
-      // .cookie("access_token", token, {
-      //   httpOnly: true,
-      // })
-      .status(200)
-      .json({ others, token });
+    const jobseeker = await JobSeeker.findOne({ user: others._id }).populate("user");
+    const employer = await Employer.findOne({ user: others._id }).populate("user");
+
+    // res
+    //   // .cookie("access_token", token, {
+    //   //   httpOnly: true,
+    //   // })
+    //   .status(200)
+    //   .json({ others, token });
 
     if (others.role === "jobseeker") {
-      console.log({ message: "You are here for looking job!" });
+      res.status(200).json({ others, token, jobseeker });
     } else if (others.role === "employer") {
-      console.log({ message: "You are here for hiring people!" });
+      res.status(200).json({ others, token, employer });
     }
   } catch (err) {
     next(err);
