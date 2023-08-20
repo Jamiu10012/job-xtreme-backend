@@ -22,7 +22,7 @@ export const createJobListing = async (req, res) => {
     } else {
       const newJobListing = await JobListing.create({
         ...req.body,
-        // employer: req.params.id,
+        employer: req.params.id,
       });
       res.status(201).json(newJobListing);
     }
