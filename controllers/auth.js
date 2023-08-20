@@ -72,8 +72,12 @@ export const signin = async (req, res, next) => {
     const token = jwt.sign({ id: user._id }, process.env.JWT);
     const { password, ...others } = user._doc;
 
-    const jobseeker = await JobSeeker.findOne({ user: others._id }).populate("user");
-    const employer = await Employer.findOne({ user: others._id }).populate("user");
+    const jobseeker = await JobSeeker.findOne({ user: others._id }).populate(
+      "user"
+    );
+    const employer = await Employer.findOne({ user: others._id }).populate(
+      "user"
+    );
 
     // res
     //   // .cookie("access_token", token, {

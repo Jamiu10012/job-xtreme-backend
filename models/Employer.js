@@ -33,6 +33,7 @@ const employerSchema = new mongoose.Schema({
     state: { type: String },
   },
   website_url: { type: String },
+  profile_picture: { type: String },
   contact_email: {
     type: String,
     match: [
