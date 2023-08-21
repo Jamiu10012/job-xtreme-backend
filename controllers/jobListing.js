@@ -25,6 +25,11 @@ export const createJobListing = async (req, res) => {
         employer: req.params.id,
       });
       res.status(201).json(newJobListing);
+      const updateEmployer = await Employer.save({
+        ...employer,
+        jobs: newJobListing,
+      });
+      res.status(204).json(updateEmployer);
     }
   } catch (err) {
     console.error("Error creating job:", err);

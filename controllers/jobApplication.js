@@ -1,9 +1,17 @@
 import JobApplication from "../models/JobApplication.js";
+import JobSeeker from "../models/JobSeeker.js";
 
 // Create a new job application
 export const createJobApplication = async (req, res) => {
   try {
     const newJobApplication = await JobApplication.create(req.body);
+    console.log("New job application created:", newJobApplication);
+    // Update jobseeker's job_applications field
+    await JobSeeker.findByIdAndUpdate(
+      req.body.jobseeker, // Replace with the actual field name holding the jobseeker's ID
+      { $push: { job_applications: newJobApplication._id } },
+      { new: true }
+    );
     res.status(201).json(newJobApplication);
   } catch (err) {
     res.status(500).json({ error: "Failed to create job application." });
@@ -13,10 +21,33 @@ export const createJobApplication = async (req, res) => {
 // Get job application by ID
 export const getJobApplicationById = async (req, res) => {
   try {
-    const jobApplication = await JobApplication.findById(req.params.id);
+    const jobApplication = await JobApplication.findById(
+      req.params.id
+    ).populate("jobseeker");
     res.status(200).json(jobApplication);
   } catch (err) {
     res.status(404).json({ error: "Job application not found." });
+  }
+};
+export const getApplyJobByJobSeekerId = async (req, res) => {
+  const jobseekerId = req.params.jobseekerId;
+
+  try {
+    const AppliedJob = await JobApplication.find({
+      jobseeker: jobseekerId,
+    }).populate({
+      path: "joblisting",
+      populate: {
+        path: "employer", // Assuming 'employer' is the field in JobListing that references the Employer model
+        model: "Employer", // Replace with the actual model name for Employer
+      },
+    });
+    res.status(200).json(AppliedJob);
+  } catch (error) {
+    console.error("Error fetching applied obs:", error);
+    res
+      .status(500)
+      .json({ error: "An error occurred while fetching applied jab." });
   }
 };
 

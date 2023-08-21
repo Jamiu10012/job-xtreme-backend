@@ -19,7 +19,17 @@ export const createResume = async (req, res) => {
         ...req.body,
         jobseeker: req.params.id,
       });
+      // Update the jobseeker's resume field with the ID of the newly created resume
+      jobseeker.resume = newResume._id;
+      await jobseeker.save();
+
       res.status(201).json(newResume);
+
+      // const updateJobSeeker = await JobSeeker.save({
+      //   ...jobseeker,
+      //   resume: newResume,
+      // });
+      // res.status(204).json(updateJobSeeker);
     }
   } catch (err) {
     console.error("Error creating resume:", err);
