@@ -120,7 +120,17 @@ export const getJobsByEmployerId = async (req, res) => {
   const employerId = req.params.employerId;
 
   try {
-    const jobs = await JobListing.find({ employer: employerId }); // Assuming 'employer' is a field in your Job model that stores the employer's ID
+    const jobs = await JobListing.find({ employer: employerId }).populate({
+      path: "job_applications",
+      populate: {
+        path: "jobseeker", // Assuming 'employer' is the field in JobListing that references the Employer model
+        model: "JobSeeker", // Replace with the actual model name for Employer
+        populate: {
+          path: "resume", // Assuming 'employer' is the field in JobListing that references the Employer model
+          model: "Resume", // Replace with the actual model name for Employer
+        },
+      },
+    }); // Assuming 'employer' is a field in your Job model that stores the employer's ID
     res.status(200).json(jobs);
   } catch (error) {
     console.error("Error fetching jobs:", error);

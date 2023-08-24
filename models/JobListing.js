@@ -56,7 +56,12 @@ const JobListingSchema = new mongoose.Schema(
         ref: "JobSeeker",
       },
     ],
-    // You can add more fields like application deadline, date posted, etc. as needed
+    job_applications: [
+      {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "JobApplication",
+      },
+    ],
   },
   { timestamps: true }
 );

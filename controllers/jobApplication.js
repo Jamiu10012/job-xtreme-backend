@@ -1,4 +1,5 @@
 import JobApplication from "../models/JobApplication.js";
+import JobListing from "../models/JobListing.js";
 import JobSeeker from "../models/JobSeeker.js";
 
 // Create a new job application
@@ -9,6 +10,12 @@ export const createJobApplication = async (req, res) => {
     // Update jobseeker's job_applications field
     await JobSeeker.findByIdAndUpdate(
       req.body.jobseeker, // Replace with the actual field name holding the jobseeker's ID
+      { $push: { job_applications: newJobApplication._id } },
+      { new: true }
+    );
+    // update joblisting's job
+    await JobListing.findByIdAndUpdate(
+      req.body.joblisting, // Replace with the actual field name holding the jobseeker's ID
       { $push: { job_applications: newJobApplication._id } },
       { new: true }
     );
