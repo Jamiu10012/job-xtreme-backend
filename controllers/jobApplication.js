@@ -110,3 +110,26 @@ export const applyForJob = async (req, res) => {
     res.status(500).json({ error: "Failed to submit application." });
   }
 };
+
+// Controller function to get job applications by employer ID
+export const getJobApplicationsByEmployer = async (req, res) => {
+  const employerId = req.params.employerId;
+
+  try {
+    const jobApplications = await JobApplication.find()
+      .populate({
+        path: "joblisting",
+        match: { employer: employerId }, // Filter by employer ID
+      })
+      .populate("jobseeker")
+      .exec();
+
+    const filteredApplications = jobApplications.filter(
+      (application) => application.joblisting !== null
+    );
+
+    res.json(filteredApplications);
+  } catch (error) {
+    res.status(500).json({ error: "An error occurred." });
+  }
+};

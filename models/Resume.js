@@ -34,6 +34,7 @@ const ResumeSchema = new mongoose.Schema({
   profile_summary: {
     type: String,
   },
+  job_title: { type: String },
   education: [
     {
       degree: {

@@ -57,7 +57,7 @@ export const getAllResumes = async (req, res) => {
 // Controller for getting a specific resume by ID
 export const getResumeById = async (req, res) => {
   try {
-    const resume = await Resume.findById(req.params.id);
+    const resume = await Resume.findById(req.params.id).populate("jobseeker");
     if (!resume) {
       return res.status(404).json({ error: "Resume not found" });
     }
