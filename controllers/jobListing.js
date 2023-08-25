@@ -145,7 +145,7 @@ export const getRandomJobs = async (req, res) => {
     const count = await JobListing.countDocuments();
     const randomJobs = [];
 
-    while (randomJobs.length < 6) {
+    while (randomJobs.length < 2) {
       const randomIndex = Math.floor(Math.random() * count);
       const randomJob = await JobListing.findOne().skip(randomIndex);
       if (randomJob) {

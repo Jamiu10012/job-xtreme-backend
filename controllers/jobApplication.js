@@ -4,19 +4,54 @@ import JobListing from "../models/JobListing.js";
 import JobSeeker from "../models/JobSeeker.js";
 
 // Create a new job application
+// export const createJobApplication = async (req, res) => {
+//   try {
+//     const newJobApplication = await JobApplication.create(req.body);
+//     console.log("New job application created:", newJobApplication);
+//     // Update jobseeker's job_applications field
+//     await JobSeeker.findByIdAndUpdate(
+//       req.body.jobseeker, // Replace with the actual field name holding the jobseeker's ID
+//       { $push: { job_applications: newJobApplication._id } },
+//       { new: true }
+//     );
+//     // update joblisting's job
+//     await JobListing.findByIdAndUpdate(
+//       req.body.joblisting, // Replace with the actual field name holding the jobseeker's ID
+//       { $push: { job_applications: newJobApplication._id } },
+//       { new: true }
+//     );
+
+//     res.status(201).json(newJobApplication);
+//   } catch (err) {
+//     res.status(500).json({ error: "Failed to create job application." });
+//   }
+// };
 export const createJobApplication = async (req, res) => {
   try {
+    const { jobseeker, joblisting } = req.body;
+
+    // Check if the job application already exists
+    const existingApplication = await JobApplication.findOne({
+      jobseeker,
+      joblisting,
+    });
+
+    if (existingApplication) {
+      return res.status(400).json({ error: "Job application already exists." });
+    }
+
     const newJobApplication = await JobApplication.create(req.body);
-    console.log("New job application created:", newJobApplication);
+
     // Update jobseeker's job_applications field
     await JobSeeker.findByIdAndUpdate(
-      req.body.jobseeker, // Replace with the actual field name holding the jobseeker's ID
+      jobseeker,
       { $push: { job_applications: newJobApplication._id } },
       { new: true }
     );
-    // update joblisting's job
+
+    // Update joblisting's job_applications field
     await JobListing.findByIdAndUpdate(
-      req.body.joblisting, // Replace with the actual field name holding the jobseeker's ID
+      joblisting,
       { $push: { job_applications: newJobApplication._id } },
       { new: true }
     );
