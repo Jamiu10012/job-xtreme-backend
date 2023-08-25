@@ -139,3 +139,27 @@ export const getJobsByEmployerId = async (req, res) => {
     res.status(500).json({ error: "An error occurred while fetching jobs." });
   }
 };
+
+export const getRandomJobs = async (req, res) => {
+  try {
+    const count = await JobListing.countDocuments();
+    const randomJobs = [];
+
+    while (randomJobs.length < 6) {
+      const randomIndex = Math.floor(Math.random() * count);
+      const randomJob = await JobListing.findOne().skip(randomIndex);
+      if (randomJob) {
+        randomJobs.push(randomJob);
+      }
+    }
+
+    if (randomJobs.length === 0) {
+      return res.status(404).json({ message: "No jobs found" });
+    }
+
+    return res.status(200).json(randomJobs);
+  } catch (error) {
+    console.error("Error while fetching random jobs:", error);
+    return res.status(500).json({ message: "Internal server error" });
+  }
+};

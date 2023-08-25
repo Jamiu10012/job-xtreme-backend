@@ -7,6 +7,7 @@ import {
   getAllJobs,
   getJobListingById,
   getJobsByEmployerId,
+  getRandomJobs,
   searchJobs,
   updateJobListingById,
 } from "../controllers/jobListing.js";
@@ -23,6 +24,7 @@ router.get("/jobs", getAllJobs);
 router.get("/getjoblisting/:id", getJobListingById);
 router.get("/getjob/:employerId", getJobsByEmployerId);
 router.get("/search", searchJobs);
-router.delete("/deletejoblisting/:id", verifyToken, deleteJobListingById);
+router.delete("/deletejoblisting/:id", deleteJobListingById);
+router.get("/randomjobs", getRandomJobs);
 
 export default router;

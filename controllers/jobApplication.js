@@ -1,3 +1,4 @@
+import Employer from "../models/Employer.js";
 import JobApplication from "../models/JobApplication.js";
 import JobListing from "../models/JobListing.js";
 import JobSeeker from "../models/JobSeeker.js";
@@ -19,6 +20,7 @@ export const createJobApplication = async (req, res) => {
       { $push: { job_applications: newJobApplication._id } },
       { new: true }
     );
+
     res.status(201).json(newJobApplication);
   } catch (err) {
     res.status(500).json({ error: "Failed to create job application." });
@@ -131,5 +133,33 @@ export const getJobApplicationsByEmployer = async (req, res) => {
     res.json(filteredApplications);
   } catch (error) {
     res.status(500).json({ error: "An error occurred." });
+  }
+};
+export const updateJobApplication = async (req, res) => {
+  try {
+    const jobseekerId = req.params.jobseekerId;
+    const joblistingId = req.params.joblistingId;
+    const newStatus = req.body.status; // Assuming you send the updated status in the request body
+
+    // Find the job application based on jobseeker and job listing IDs
+    const jobApp = await JobApplication.findOne({
+      jobseeker: jobseekerId,
+      joblisting: joblistingId,
+    });
+
+    if (!jobApp) {
+      return res.status(404).json({ message: "Job application not found." });
+    }
+
+    // Update the status
+    jobApp.status = newStatus;
+
+    // Save the changes
+    const updatedJobApp = await jobApp.save();
+
+    return res.status(200).json(updatedJobApp);
+  } catch (error) {
+    console.error("Error updating job application:", error);
+    return res.status(500).json({ message: "Internal server error" });
   }
 };
