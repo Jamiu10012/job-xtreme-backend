@@ -277,6 +277,7 @@ export const getBestMatchingApplications = async (req, res) => {
     // console.log(jobListing.skills);
     const allApplications = await JobApplication.find({
       status: "applied", // Change this based on your status logic
+      joblisting: jobListingId,
     })
       .populate({
         path: "jobseeker",
@@ -307,7 +308,7 @@ export const getBestMatchingApplications = async (req, res) => {
       );
       return bCommonSkills.length - aCommonSkills.length;
     });
-    const top3BestMatchingApplications = bestMatchingApplications.slice(0, 1);
+    const top3BestMatchingApplications = bestMatchingApplications.slice(0, 2);
     console.log(top3BestMatchingApplications);
     res.json(top3BestMatchingApplications);
     // res.json(bestMatchingApplications);
