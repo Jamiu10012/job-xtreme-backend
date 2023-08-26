@@ -13,15 +13,15 @@ const ResumeSchema = new mongoose.Schema({
   },
   email: {
     type: String,
-    required: [true, "Email is required"],
+    // required: [true, "Email is required"],
   },
   phone: {
     type: String,
-    required: [true, "Phone number is required"],
+    // required: [true, "Phone number is required"],
   },
   address: {
     type: String,
-    required: [true, "Address is required"],
+    // required: [true, "Address is required"],
   },
   social_media: {
     linkedin: { type: String },

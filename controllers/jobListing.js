@@ -24,12 +24,14 @@ export const createJobListing = async (req, res) => {
         ...req.body,
         employer: req.params.id,
       });
+
+      await Employer.findByIdAndUpdate(
+        employer,
+        { $push: { jobs: newJobListing._id } },
+        { new: true }
+      );
+
       res.status(201).json(newJobListing);
-      const updateEmployer = await Employer.save({
-        ...employer,
-        jobs: newJobListing,
-      });
-      res.status(204).json(updateEmployer);
     }
   } catch (err) {
     console.error("Error creating job:", err);
