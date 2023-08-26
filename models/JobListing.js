@@ -43,7 +43,13 @@ const JobListingSchema = new mongoose.Schema(
     yearsOfExperience: {
       type: String,
     },
-    message: {
+    meeting_date: {
+      type: String,
+    },
+    meeting_time: {
+      type: String,
+    },
+    meeting_link: {
       type: String,
     },
     skills: {

@@ -2,15 +2,23 @@ import mongoose from "mongoose";
 
 const jobSeekerSchema = new mongoose.Schema({
   user: { type: mongoose.Schema.Types.ObjectId, ref: "User", required: true },
-  full_name: {
-    firstname: {
-      type: String,
-      required: [true, "First name is required"],
-    },
-    lastname: {
-      type: String,
-      required: [true, "Last name is required"],
-    },
+  // full_name: {
+  //   firstname: {
+  //     type: String,
+  //     required: [true, "First name is required"],
+  //   },
+  //   lastname: {
+  //     type: String,
+  //     required: [true, "Last name is required"],
+  //   },
+  // },
+  firstname: {
+    type: String,
+    required: [true, "First name is required"],
+  },
+  lastname: {
+    type: String,
+    required: [true, "Last name is required"],
   },
   contact_phone: { type: String, required: true },
   job_title: { type: String },
@@ -26,18 +34,26 @@ const jobSeekerSchema = new mongoose.Schema({
   gender: { type: String },
   date_of_birth: { type: String },
   nationality: { type: String },
-  location: {
-    city: { type: String },
-    zipcode: { type: String },
-    full_address: { type: String },
-    state: { type: String },
-  },
-  social_media: {
-    linkedin: { type: String },
-    twitter: { type: String },
-    facebook: { type: String },
-    instagram: { type: String },
-  },
+  city: { type: String },
+  zipcode: { type: String },
+  full_address: { type: String },
+  state: { type: String },
+  linkedin: { type: String },
+  twitter: { type: String },
+  facebook: { type: String },
+  instagram: { type: String },
+  // location: {
+  //   city: { type: String },
+  //   zipcode: { type: String },
+  //   full_address: { type: String },
+  //   state: { type: String },
+  // },
+  // social_media: {
+  //   linkedin: { type: String },
+  //   twitter: { type: String },
+  //   facebook: { type: String },
+  //   instagram: { type: String },
+  // },
   saved_jobs: [{ type: mongoose.Schema.Types.ObjectId, ref: "JobListing" }],
   job_applications: [
     { type: mongoose.Schema.Types.ObjectId, ref: "JobApplication" },
