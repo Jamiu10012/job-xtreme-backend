@@ -87,7 +87,7 @@ export const signin = async (req, res, next) => {
     //   .json({ others, token });
 
     if (others.role === "jobseeker") {
-      res.status(200).json({ others, token, jobseeker });
+      res.cookie.status(200).json({ others, token, jobseeker });
     } else if (others.role === "employer") {
       res.status(200).json({ others, token, employer });
     }
