@@ -1,12 +1,13 @@
 // routes/jobListing.js
 import express from "express";
-import { verifyToken } from "../verifyToken.js";
+import { verifyToken } from "../middleware/verifyToken.js";
 import {
   createJobListing,
   deleteJobListingById,
   getAllJobs,
   getJobListingById,
   getJobsByEmployerId,
+  getJobByEmployerId,
   getRandomJobs,
   searchJobs,
   updateJobListingById,
@@ -23,6 +24,8 @@ router.get("/jobs", getAllJobs);
 // router.get("/getjoblisting/:id", verifyToken, getJobListingById);
 router.get("/getjoblisting/:id", getJobListingById);
 router.get("/getjob/:employerId", getJobsByEmployerId);
+router.get("/getjob/one/:employerId/:jobId", getJobByEmployerId);
+
 router.get("/search", searchJobs);
 router.delete("/deletejoblisting/:id", deleteJobListingById);
 router.get("/randomjobs", getRandomJobs);

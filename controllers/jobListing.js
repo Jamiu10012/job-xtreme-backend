@@ -150,6 +150,40 @@ export const getJobsByEmployerId = async (req, res) => {
   }
 };
 
+
+
+export const getJobByEmployerId = async (req, res) => {
+  const employerId = req.params.employerId;
+  const jobId = req.params.jobId;
+
+  try {
+    const jobs = await JobListing.findById({ _id: jobId }).where({ employer: employerId })
+      .populate({
+        path: "job_applications",
+        populate: {
+          path: "jobseeker", // Assuming 'employer' is the field in JobListing that references the Employer model
+          model: "JobSeeker", // Replace with the actual model name for Employer
+          populate: {
+            path: "resume", // Assuming 'employer' is the field in JobListing that references the Employer model
+            model: "Resume", // Replace with the actual model name for Employer
+          },
+        },
+      })
+      .populate("employer")
+      .populate({
+        path: "job_applications",
+        populate: {
+          path: "joblisting",
+          model: "JobListing",
+        },
+      }); // Assuming 'employer' is a field in your Job model that stores the employer's ID
+    res.status(200).json(jobs);
+  } catch (error) {
+    console.error("Error fetching jobs:", error);
+    res.status(500).json({ error: "An error occurred while fetching jobs." });
+  }
+};
+
 export const getRandomJobs = async (req, res) => {
   try {
     const count = await JobListing.countDocuments();
@@ -173,3 +207,5 @@ export const getRandomJobs = async (req, res) => {
     return res.status(500).json({ message: "Internal server error" });
   }
 };
+
+
