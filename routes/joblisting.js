@@ -18,7 +18,7 @@ const router = express.Router();
 // POST /api/create-job-listing
 router.post("/createjoblisting/:id", createJobListing);
 
-router.put("/updatejoblisting/:id", verifyToken, updateJobListingById);
+router.put("/updatejoblisting/:id", updateJobListingById);
 router.get("/jobs", getAllJobs);
 // router.get("/getjoblisting/:id", verifyToken, getJobListingById);
 router.get("/getjoblisting/:id", getJobListingById);

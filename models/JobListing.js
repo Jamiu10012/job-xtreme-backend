@@ -43,6 +43,9 @@ const JobListingSchema = new mongoose.Schema(
     yearsOfExperience: {
       type: String,
     },
+    message: {
+      type: String,
+    },
     skills: {
       type: [String],
     },

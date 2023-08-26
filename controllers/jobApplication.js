@@ -276,7 +276,7 @@ export const getBestMatchingApplications = async (req, res) => {
     );
     // console.log(jobListing.skills);
     const allApplications = await JobApplication.find({
-      status: "applied", // Change this based on your status logic
+      $or: [{ status: "shortlisted" }, { status: "applied" }], // Change this based on your status logic
       joblisting: jobListingId,
     })
       .populate({
@@ -297,7 +297,7 @@ export const getBestMatchingApplications = async (req, res) => {
       const commonSkills = resumeSkills?.filter((skill) =>
         requiredSkills.includes(skill)
       );
-      return commonSkills?.length > 0; // If there are common skills, the application matches
+      return commonSkills?.length >= Math.ceil(requiredSkills.length / 2); // If there are common skills, the application matches
     });
     bestMatchingApplications.sort((a, b) => {
       const aCommonSkills = a.jobseeker?.resume?.skills?.filter((skill) =>
@@ -309,9 +309,13 @@ export const getBestMatchingApplications = async (req, res) => {
       return bCommonSkills.length - aCommonSkills.length;
     });
     const top3BestMatchingApplications = bestMatchingApplications.slice(0, 2);
-    console.log(top3BestMatchingApplications);
+    // console.log(top3BestMatchingApplications);
     res.json(top3BestMatchingApplications);
     // res.json(bestMatchingApplications);
+    const updatedApplications = await JobApplication.updateMany(
+      { _id: { $in: top3BestMatchingApplications.map((app) => app._id) } },
+      { $set: { status: "shortlisted" } }
+    );
   } catch (error) {
     console.error("Error fetching best-matching applications:", error);
     res.status(500).json({ error: "Internal server error" });
