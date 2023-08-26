@@ -5,12 +5,12 @@ import {
   getJobSeekerById,
   updateJobSeekerById,
 } from "../controllers/jobSeeker.js";
-// import { verifyToken } from "../verifyToken.js";
+import { verifyToken } from "../verifyToken.js";
 
 const router = express.Router();
 
 // Get all users
-router.get("/all/", getAllJobSeekers);
+router.get("/all/", verifyToken, getAllJobSeekers);
 router.get("/:id", getJobSeekerById);
 
 // upadate user

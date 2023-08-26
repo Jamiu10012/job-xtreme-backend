@@ -312,6 +312,11 @@ export const getBestMatchingApplications = async (req, res) => {
     // console.log(top3BestMatchingApplications);
     res.json(top3BestMatchingApplications);
     // res.json(bestMatchingApplications);
+
+    // Introduce a delay of 1 minute (60 seconds) before updating the statuses
+    await new Promise((resolve) => setTimeout(resolve, 60000));
+
+    // Now update the statuses
     const updatedApplications = await JobApplication.updateMany(
       { _id: { $in: top3BestMatchingApplications.map((app) => app._id) } },
       { $set: { status: "shortlisted" } }
