@@ -10,6 +10,9 @@ export const createResume = async (req, res) => {
     if (!req.params.id || !req.params.id) {
       return res.status(403).json({ error: "User not authenticated." });
     }
+    if (jobseeker.resume) {
+      return res.status(409).json({ error: "Resume already exists." });
+    }
     if (jobseeker.user.role !== "jobseeker") {
       return res
         .status(403)
