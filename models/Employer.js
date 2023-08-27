@@ -26,12 +26,11 @@ const employerSchema = new mongoose.Schema({
   },
   company_size: { type: String, enum: ["small", "medium", "large", "larger"] },
   nationality: { type: String },
-  location: {
-    city: { type: String },
-    zipcode: { type: String },
-    full_address: { type: String },
-    state: { type: String },
-  },
+  city: { type: String },
+  zipcode: { type: String },
+  full_address: { type: String },
+  state: { type: String },
+
   website_url: { type: String },
   profile_picture: { type: String },
   contact_email: {
@@ -43,12 +42,12 @@ const employerSchema = new mongoose.Schema({
     required: true,
   },
   contact_phone: { type: String, required: true },
-  social_media: {
-    linkedin: { type: String },
-    twitter: { type: String },
-    facebook: { type: String },
-    instagram: { type: String },
-  },
+
+  linkedin: { type: String },
+  twitter: { type: String },
+  facebook: { type: String },
+  instagram: { type: String },
+
   jobs: [{ type: mongoose.Schema.Types.ObjectId, ref: "JobListing" }],
 });
 

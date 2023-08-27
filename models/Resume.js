@@ -4,11 +4,11 @@ const ResumeSchema = new mongoose.Schema({
   fullName: {
     firstname: {
       type: String,
-      required: [true, "First name is required"],
+      // required: [true, "First name is required"],
     },
     lastname: {
       type: String,
-      required: [true, "Last name is required"],
+      // required: [true, "Last name is required"],
     },
   },
   email: {
