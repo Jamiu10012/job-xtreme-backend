@@ -17,7 +17,11 @@ const ResumeSchema = new mongoose.Schema({
   },
   phone: {
     type: String,
-    // required: [true, "Phone number is required"],
+    // required: [true, "Phone String is required"],
+  },
+  yearofExperience: {
+    type: String,
+    // required: [true, "Phone String is required"],
   },
   address: {
     type: String,
@@ -53,10 +57,10 @@ const ResumeSchema = new mongoose.Schema({
         type: String,
       },
       startYear: {
-        type: Number,
+        type: String,
       },
       endYear: {
-        type: Number,
+        type: String,
       },
       desc: {
         type: String,
@@ -81,11 +85,11 @@ const ResumeSchema = new mongoose.Schema({
         type: String,
       },
       startYear: {
-        type: Number,
+        type: String,
         // required: [true, "Start year is required"],
       },
       endYear: {
-        type: Number,
+        type: String,
       },
       desc: {
         type: String,
