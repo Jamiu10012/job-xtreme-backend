@@ -297,7 +297,14 @@ export const getBestMatchingApplications = async (req, res) => {
       const commonSkills = resumeSkills?.filter((skill) =>
         requiredSkills.includes(skill)
       );
-      return commonSkills?.length >= Math.ceil(requiredSkills.length / 2); // If there are common skills, the application matches
+      const resumeExperience =
+        application.jobseeker?.resume?.yearofExperience || [];
+      const jobListingExperience = jobListing?.yearsOfExperience || [];
+      return (
+        commonSkills?.length >= Math.ceil(requiredSkills.length / 2) &&
+        resumeExperience >= jobListingExperience
+      );
+      // return commonSkills?.length >= Math.ceil(requiredSkills.length / 2); // If there are common skills, the application matches
     });
     bestMatchingApplications.sort((a, b) => {
       const aCommonSkills = a.jobseeker?.resume?.skills?.filter((skill) =>
