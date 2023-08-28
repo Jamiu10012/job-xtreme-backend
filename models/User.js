@@ -29,7 +29,7 @@ const UserSchema = new mongoose.Schema(
       //   },
       //   message:
       //     "Password must include a number, an alphabet, a special character, and be at least 8 characters long.",
-      },
+      // },
     },
     role: {
       type: String,
