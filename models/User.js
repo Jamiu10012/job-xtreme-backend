@@ -14,6 +14,22 @@ const UserSchema = new mongoose.Schema(
     password: {
       type: String,
       require: true,
+      validate: {
+        validator: function (value) {
+          // Password validation logic
+          const hasNumber = /\d/.test(value);
+          const hasAlphabet = /[a-zA-Z]/.test(value);
+          const hasSpecialCharacter =
+            /[!@#$%^&*()_+{}\[\]:;<>,.?~\\/\-="']/.test(value);
+          const hasMinLength = value.length >= 8;
+
+          return (
+            hasNumber && hasAlphabet && hasSpecialCharacter && hasMinLength
+          );
+        },
+        message:
+          "Password must include a number, an alphabet, a special character, and be at least 8 characters long.",
+      },
     },
     role: {
       type: String,
