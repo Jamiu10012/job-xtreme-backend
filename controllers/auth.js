@@ -6,6 +6,8 @@ import bcrypt from "bcryptjs";
 import { createError } from "../error.js";
 import jwt from "jsonwebtoken";
 
+const PASSWORD_COMPLEXITY_REGEX =
+  /^(?=.*[a-zA-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
 export const signup = async (req, res, next) => {
   try {
     const { email, password } = req.body;
@@ -15,6 +17,12 @@ export const signup = async (req, res, next) => {
     const existingUser = await User.findOne({ email });
     if (existingUser) {
       return res.status(409).json({ error: "Email already exists." });
+    }
+    if (!PASSWORD_COMPLEXITY_REGEX.test(password)) {
+      return res.status(400).json({
+        error:
+          "Password must be at least 8 characters long and contain at least one letter, one number, and one special character.",
+      });
     }
 
     const salt = bcrypt.genSaltSync(10);
