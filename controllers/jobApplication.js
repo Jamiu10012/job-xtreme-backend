@@ -315,9 +315,9 @@ export const getBestMatchingApplications = async (req, res) => {
       );
       return bCommonSkills.length - aCommonSkills.length;
     });
-    const top3BestMatchingApplications = bestMatchingApplications.slice(0, 2);
+    const topBestMatchingApplications = bestMatchingApplications.slice(0, 5);
     // console.log(top3BestMatchingApplications);
-    res.json(top3BestMatchingApplications);
+    res.json(topBestMatchingApplications);
     // res.json(bestMatchingApplications);
 
     // Introduce a delay of 1 minute (60 seconds) before updating the statuses
@@ -325,7 +325,7 @@ export const getBestMatchingApplications = async (req, res) => {
 
     // Now update the statuses
     const updatedApplications = await JobApplication.updateMany(
-      { _id: { $in: top3BestMatchingApplications.map((app) => app._id) } },
+      { _id: { $in: topBestMatchingApplications.map((app) => app._id) } },
       { $set: { status: "shortlisted" } }
     );
   } catch (error) {
