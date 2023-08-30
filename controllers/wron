@@ -56,10 +56,10 @@ export const signup = async (req, res, next) => {
     const hash = bcrypt.hashSync(password, salt);
 
     const user = new User({ ...req.body, password: hash });
-    const newUser = await user.save();
-    // const newUser = await user.save().then((result) => {
-    //   sendVerificatonEmail(result, res);
-    // });
+    // const newUser = await user.save();
+    const newUser = await user.save().then((result) => {
+      sendVerificatonEmail(result, res);
+    });
     if (role === "jobseeker") {
       const jobSeeker = new JobSeeker({
         ...req.body,
@@ -70,35 +70,11 @@ export const signup = async (req, res, next) => {
       });
 
       // const saveSeeker = await jobSeeker.save().then(() => {
-      // return await jobSeeker.save().then((result) => {
-      //   sendVerificatonEmail(result, res);
-      //   res
-      //     .status(201)
-      //     .json({ success: true, message: "New jobseeker account created!" });
-      // });
-      return await jobSeeker
-        .save()
-        .then((result) => {
-          return sendVerificatonEmail(result)
-            .then(() => {
-              res.status(201).json({
-                success: true,
-                message: "New jobseeker account created!",
-              });
-            })
-            .catch((error) => {
-              res.status(500).json({
-                success: false,
-                message: "Failed to send verification email.",
-              });
-            });
-        })
-        .catch((error) => {
-          res.status(500).json({
-            success: false,
-            message: "Failed to create jobseeker account.",
-          });
-        });
+      return await jobSeeker.save().then(() => {
+        res
+          .status(201)
+          .json({ success: true, message: "New jobseeker account created!" });
+      });
       // var message = {
       //   from: "ibrahimjamiu026@mail.com",
       //   to: req.body.email,
@@ -131,18 +107,19 @@ export const signup = async (req, res, next) => {
   }
 };
 
-const sendVerificatonEmail = ({ _id, contact_email }, res) => {
+const sendVerificatonEmail = ({ _id, email }, res) => {
   const currentUrl = "http://localhost:8080";
 
   const uniqueString = uuidv4() + _id;
-
+  // from: "ibrahimjamiu026@gmail.com",
   const mailOptions = {
     from: process.env.EMAIL_USER,
-    to: contact_email,
+    to: email,
     subject: "Verify your email",
-    html: `<p>Verify your email address to complete the signup and login into your account.</p><p>The link <b>expires in 6 hours</b>.</p><p>Click <a href="https://job-xtreme.vercel.app/login">here</a> to proceed</p>`,
+    html: `<p>Verify your email address to complete the signup and login into your account.</p><p>The link <b>expire in 6 hours</b>.</p><p>click <a href=${
+      currentUrl + "auth/verify/" + _id + "/" + uniqueString
+    }>here</a>to proceed</p>`,
   };
-
   const saltRounds = 10;
   bcrypt
     .hash(uniqueString, saltRounds)
@@ -153,7 +130,6 @@ const sendVerificatonEmail = ({ _id, contact_email }, res) => {
         createdAt: Date.now(),
         expiresAt: Date.now() + 21600000,
       });
-
       newVerification
         .save()
         .then(() => {
@@ -161,15 +137,15 @@ const sendVerificatonEmail = ({ _id, contact_email }, res) => {
             .sendMail(mailOptions)
             .then(() => {
               res.json({
-                status: "Success",
-                message: "Verification email sent",
+                status: "Pending",
+                message: " verification email failed",
               });
             })
             .catch((error) => {
               console.log(error);
               res.json({
                 status: "Failed",
-                message: "Failed to send verification email",
+                message: " verification email sent",
               });
             });
         })
@@ -182,15 +158,12 @@ const sendVerificatonEmail = ({ _id, contact_email }, res) => {
         });
     })
     .catch(() => {
-      res.json({
-        status: "Failed",
-        message: "An error occurred while generating the hash",
-      });
+      res.json({ status: "Failed", message: "An error occure wile hash" });
     });
 };
 
 // export const verifyEmail = async (req, res, next) => {
-//   let { userId, uniqueString } = req.params
+//   let { userId, uniqueString } = req.params;
 //   UserVerification.find({ userId })
 //     .then((result) => {
 //       if (result.length > 0) {
@@ -309,3 +282,57 @@ export const signin = async (req, res, next) => {
     next(err);
   }
 };
+
+// anoter
+
+import mongoose from "mongoose";
+
+const UserSchema = new mongoose.Schema(
+  {
+    email: {
+      type: String,
+      required: [true, "E-mail is required"],
+      unique: true, // Make the email field unique
+      match: [
+        /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/,
+        "Please add a valid email",
+      ],
+    },
+    password: {
+      type: String,
+      require: true,
+      validate: {
+        validator: function (value) {
+          // Password validation logic
+          const hasNumber = /\d/.test(value);
+          const hasAlphabet = /[a-zA-Z]/.test(value);
+          const hasSpecialCharacter =
+            /[!@#$%^&*()_+{}\[\]:;<>,.?~\\/\-="']/.test(value);
+          const hasMinLength = value.length >= 8;
+
+          return (
+            hasNumber && hasAlphabet && hasSpecialCharacter && hasMinLength
+          );
+        },
+        message:
+          "Password must include a number, an alphabet, a special character, and be at least 8 characters long.",
+      },
+    },
+    verified: {
+      type: Boolean,
+      default: false,
+    },
+    role: {
+      type: String,
+      enum: ["jobseeker", "employer", "admin"],
+      required: true,
+    },
+    RegistrationDate: {
+      type: Date,
+      default: Date.now,
+    },
+  },
+  { timestamps: true }
+);
+
+export default mongoose.model("User", UserSchema);

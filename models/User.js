@@ -31,6 +31,10 @@ const UserSchema = new mongoose.Schema(
           "Password must include a number, an alphabet, a special character, and be at least 8 characters long.",
       },
     },
+    verified: {
+      type: Boolean,
+      default: false,
+    },
     role: {
       type: String,
       enum: ["jobseeker", "employer", "admin"],
