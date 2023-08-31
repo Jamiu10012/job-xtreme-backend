@@ -42,18 +42,12 @@ const jobSeekerSchema = new mongoose.Schema({
   twitter: { type: String },
   facebook: { type: String },
   instagram: { type: String },
-  // location: {
-  //   city: { type: String },
-  //   zipcode: { type: String },
-  //   full_address: { type: String },
-  //   state: { type: String },
-  // },
-  // social_media: {
-  //   linkedin: { type: String },
-  //   twitter: { type: String },
-  //   facebook: { type: String },
-  //   instagram: { type: String },
-  // },
+  skills: {
+    type: [String],
+  },
+  yearofExperience: {
+    type: String,
+  },
   saved_jobs: [{ type: mongoose.Schema.Types.ObjectId, ref: "JobListing" }],
   job_applications: [
     { type: mongoose.Schema.Types.ObjectId, ref: "JobApplication" },

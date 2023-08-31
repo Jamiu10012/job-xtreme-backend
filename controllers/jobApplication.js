@@ -256,6 +256,7 @@ export const updateJobApplication = async (req, res) => {
 //     res.status(500).json({ error: "Internal server error" });
 //   }
 // };
+
 export const getBestMatchingApplications = async (req, res) => {
   try {
     const jobListingId = req.params.jobListingId; // Assuming you're passing the job listing ID in the URL
@@ -291,14 +292,13 @@ export const getBestMatchingApplications = async (req, res) => {
 
     const bestMatchingApplications = allApplications.filter((application) => {
       // const resumeSkills = application.jobseeker?.resume?.skills;
-      const resumeSkills = application.jobseeker?.resume?.skills?.map((skill) =>
+      const resumeSkills = application.jobseeker?.skills?.map((skill) =>
         skill.toLowerCase()
       );
       const commonSkills = resumeSkills?.filter((skill) =>
         requiredSkills.includes(skill)
       );
-      const resumeExperience =
-        application.jobseeker?.resume?.yearofExperience || [];
+      const resumeExperience = application.jobseeker?.yearofExperience || [];
       const jobListingExperience = jobListing?.yearsOfExperience || [];
       return (
         commonSkills?.length >= Math.ceil(requiredSkills.length / 2) &&
@@ -307,10 +307,10 @@ export const getBestMatchingApplications = async (req, res) => {
       // return commonSkills?.length >= Math.ceil(requiredSkills.length / 2); // If there are common skills, the application matches
     });
     bestMatchingApplications.sort((a, b) => {
-      const aCommonSkills = a.jobseeker?.resume?.skills?.filter((skill) =>
+      const aCommonSkills = a.jobseeker?.skills?.filter((skill) =>
         requiredSkills.includes(skill.toLowerCase())
       );
-      const bCommonSkills = b.jobseeker?.resume?.skills?.filter((skill) =>
+      const bCommonSkills = b.jobseeker?.skills?.filter((skill) =>
         requiredSkills.includes(skill.toLowerCase())
       );
       return bCommonSkills.length - aCommonSkills.length;
@@ -333,3 +333,81 @@ export const getBestMatchingApplications = async (req, res) => {
     res.status(500).json({ error: "Internal server error" });
   }
 };
+
+// export const getBestMatchingApplications = async (req, res) => {
+//   try {
+//     const jobListingId = req.params.jobListingId; // Assuming you're passing the job listing ID in the URL
+
+//     // Fetch the job listing based on the ID
+//     const jobListing = await JobListing.findById(jobListingId).populate(
+//       "skills"
+//     );
+
+//     if (!jobListing) {
+//       return res.status(404).json({ error: "Job listing not found" });
+//     }
+
+//     // Get the required skills from the job listing
+//     // const requiredSkills = jobListing.skills;
+//     const requiredSkills = jobListing.skills.map((skill) =>
+//       skill.toLowerCase()
+//     );
+//     // console.log(jobListing.skills);
+//     const allApplications = await JobApplication.find({
+//       $or: [{ status: "shortlisted" }, { status: "applied" }], // Change this based on your status logic
+//       joblisting: jobListingId,
+//     })
+//       .populate({
+//         path: "jobseeker",
+//         populate: {
+//           path: "resume", // Assuming 'employer' is the field in JobListing that references the Employer model
+//           model: "Resume", // Replace with the actual model name for Employer
+//         },
+//       })
+//       .populate("joblisting");
+//     // console.log(allApplications);
+
+//     const bestMatchingApplications = allApplications.filter((application) => {
+//       // const resumeSkills = application.jobseeker?.resume?.skills;
+//       const resumeSkills = application.jobseeker?.resume?.skills?.map((skill) =>
+//         skill.toLowerCase()
+//       );
+//       const commonSkills = resumeSkills?.filter((skill) =>
+//         requiredSkills.includes(skill)
+//       );
+//       const resumeExperience =
+//         application.jobseeker?.resume?.yearofExperience || [];
+//       const jobListingExperience = jobListing?.yearsOfExperience || [];
+//       return (
+//         commonSkills?.length >= Math.ceil(requiredSkills.length / 2) &&
+//         resumeExperience >= jobListingExperience
+//       );
+//       // return commonSkills?.length >= Math.ceil(requiredSkills.length / 2); // If there are common skills, the application matches
+//     });
+//     bestMatchingApplications.sort((a, b) => {
+//       const aCommonSkills = a.jobseeker?.resume?.skills?.filter((skill) =>
+//         requiredSkills.includes(skill.toLowerCase())
+//       );
+//       const bCommonSkills = b.jobseeker?.resume?.skills?.filter((skill) =>
+//         requiredSkills.includes(skill.toLowerCase())
+//       );
+//       return bCommonSkills.length - aCommonSkills.length;
+//     });
+//     const topBestMatchingApplications = bestMatchingApplications.slice(0, 5);
+//     // console.log(top3BestMatchingApplications);
+//     res.json(topBestMatchingApplications);
+//     // res.json(bestMatchingApplications);
+
+//     // Introduce a delay of 1 minute (60 seconds) before updating the statuses
+//     await new Promise((resolve) => setTimeout(resolve, 60000));
+
+//     // Now update the statuses
+//     const updatedApplications = await JobApplication.updateMany(
+//       { _id: { $in: topBestMatchingApplications.map((app) => app._id) } },
+//       { $set: { status: "shortlisted" } }
+//     );
+//   } catch (error) {
+//     console.error("Error fetching best-matching applications:", error);
+//     res.status(500).json({ error: "Internal server error" });
+//   }
+// };
