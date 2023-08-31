@@ -9,13 +9,13 @@ const JobListingSchema = new mongoose.Schema(
     jobType: {
       type: String,
       enum: [
-        "full-time",
-        "part-time",
-        "contract",
-        "temporary",
-        "internship",
-        "remote",
-        "freelance",
+        "Full-time",
+        "Part-time",
+        "Contract",
+        "Temporary",
+        "Internship",
+        "Remote",
+        "Freelance",
       ],
       required: true,
     },
@@ -32,24 +32,48 @@ const JobListingSchema = new mongoose.Schema(
       required: true,
     },
     salary: {
-      type: Number,
+      type: String,
       required: true,
     },
     salaryMethod: {
       type: String,
-      enum: ["hourly", "monthly", "annually"],
+      enum: ["Hourly", "Month", "Year"],
       required: true,
     },
     yearsOfExperience: {
-      type: Number,
+      type: String,
+    },
+    meeting_date: {
+      type: String,
+    },
+    meeting_time: {
+      type: String,
+    },
+    meeting_link: {
+      type: String,
+    },
+    skills: {
+      type: [String],
     },
     posted_date: { type: Date, default: Date.now },
+
     employer: {
       type: mongoose.Schema.Types.ObjectId,
-      ref: "User", // Reference to the User collection (employers will be users in the User collection)
+      ref: "Employer",
       required: true,
     },
-    // You can add more fields like application deadline, date posted, etc. as needed
+    applicant: [
+      {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "JobSeeker",
+      },
+    ],
+    job_applications: [
+      {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "JobApplication",
+      },
+    ],
   },
   { timestamps: true }
 );

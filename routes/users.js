@@ -3,10 +3,14 @@ import {
   deleteUserById,
   getUserById,
   updateUserById,
+  getUsers,
 } from "../controllers/user.js";
-import { verifyToken } from "../verifyToken.js";
+import { verifyToken } from "../middleware/verifyToken.js";
 
 const router = express.Router();
+
+// Get all users
+router.get("/all/", getUsers);
 
 // upadate user
 router.put("/:id", verifyToken, updateUserById);
