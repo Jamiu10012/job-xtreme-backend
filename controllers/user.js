@@ -10,6 +10,18 @@ export const createUser = async (req, res, next) => {
     res.status(500).json({ error: "Failed to create user." });
   }
 };
+
+export const getUsers = async (req, res) => {
+  try {
+    const users = await User.find();
+    // .then(() => {
+    //   res.status(200).json({ succes: true, users: users });
+    // });
+    return res.status(200).json({ users });
+  } catch (err) {
+    res.status(500).json({ error: err });
+  }
+};
 // Get user by ID
 export const getUserById = async (req, res) => {
   try {

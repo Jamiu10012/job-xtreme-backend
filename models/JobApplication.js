@@ -6,9 +6,9 @@ const jobApplicationSchema = new mongoose.Schema({
     ref: "JobSeeker",
     required: true,
   },
-  jobpost: {
+  joblisting: {
     type: mongoose.Schema.Types.ObjectId,
-    ref: "JobPost",
+    ref: "JobListing",
     required: true,
   },
   application_date: { type: Date, default: Date.now },
@@ -21,4 +21,4 @@ const jobApplicationSchema = new mongoose.Schema({
 
 const JobApplication = mongoose.model("JobApplication", jobApplicationSchema);
 
-module.exports = JobApplication;
+export default JobApplication;
